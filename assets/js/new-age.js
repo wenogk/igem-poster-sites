@@ -26,12 +26,43 @@
     offset: 54
   });
 
+    function getResponsiveBreakpoint() {
+    var envs = ["xs", "sm", "md", "lg"];
+    var env = "";
+
+    var $el = $("<div>");
+    $el.appendTo($("body"));
+
+    for (var i = envs.length - 1; i >= 0; i--) {
+        env = envs[i];
+        $el.addClass("d-" + env + "-none");;
+        if ($el.is(":hidden")) {
+            break; // env detected
+        }
+    }
+    $el.remove();
+    return env;
+}
   // Collapse Navbar
   var navbarCollapse = function() {
+      let screenSize = getResponsiveBreakpoint();
     if ($("#mainNav").offset().top > 100) {
+        
       $("#mainNav").addClass("navbar-shrink");
+    if((screenSize!="xs")&&(screenSize!="sm")) {
+    $("#logo-src").attr("src","T--NYU_Abu_Dhabi--logoBlack.png");
+    } else {
+            $("#logo-src").attr("src","T--NYU_Abu_Dhabi--logoBlack.png");
+    }
+              
     } else {
       $("#mainNav").removeClass("navbar-shrink");
+        if((screenSize!="xs")&&(screenSize!="sm")) {
+     $("#logo-src").attr("src","volatect-logo.png");
+        } else {
+            $("#logo-src").attr("src","T--NYU_Abu_Dhabi--logoBlack.png");
+    }
+   
     }
   };
   // Collapse now if page is not at top

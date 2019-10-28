@@ -50,17 +50,17 @@
         
       $("#mainNav").addClass("navbar-shrink");
     if((screenSize!="xs")&&(screenSize!="sm")) {
-    $("#logo-src").attr("src","T--NYU_Abu_Dhabi--logoBlack.png");
+    $("#logo-src").attr("src","assets/img/T--NYU_Abu_Dhabi--logoBlack.png");
     } else {
-            $("#logo-src").attr("src","T--NYU_Abu_Dhabi--logoBlack.png");
+            $("#logo-src").attr("src","assets/img/T--NYU_Abu_Dhabi--logoBlack.png");
     }
               
     } else {
       $("#mainNav").removeClass("navbar-shrink");
         if((screenSize!="xs")&&(screenSize!="sm")) {
-     $("#logo-src").attr("src","volatect-logo.png");
+     $("#logo-src").attr("src","assets/img/volatect-logo.png");
         } else {
-            $("#logo-src").attr("src","T--NYU_Abu_Dhabi--logoBlack.png");
+            $("#logo-src").attr("src","assets/img/T--NYU_Abu_Dhabi--logoBlack.png");
     }
    
     }

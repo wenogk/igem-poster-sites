@@ -34,9 +34,18 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" type="text/javascript"></script>
 <link href="https://unpkg.com/tabulator-tables@4.4.3/dist/css/tabulator.min.css" rel="stylesheet">
 <script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.4.3/dist/js/tabulator.min.js"></script>
+<style>
+    .list-group-item {
+        word-wrap: break-word;
+    }
+</style>
+<div class="container text-center" style="padding:15px 0px;">
+<input style="font-size: 1.35vh;" class="form-control" type="text" placeholder="https://igem-nyuad-api.herokuapp.com/request/" readonly />
+</div>
 <script>
-    $.getJSON('https://igem-nyuad-api.herokuapp.com/request/', function(tabledata) {
+    $.getJSON('https://igem-nyuad-api.herokuapp.com/request/', function(jArr) {
     //data is the JSON string
+        /*
         var table = new Tabulator("#data-table", {
  	height:"25vh", // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
  	data:tabledata, //assign data to table
@@ -60,7 +69,13 @@
  	rowClick:function(e, row){ //trigger an alert message when the row is clicked
  		alert("Row " + row.getData().id + " Clicked!!!!");
  	},
+});*/
+        tableData="<div class='row'>";
+$.each(jArr, function(index, data) {
+ tableData += "<div class='col-xs-6 col-sm-3'><ul class='list-group'><li class='list-group-item'><span><mark><strong>Unique identifier</mark></strong> <br/>"+data.identifier+"</span></li>"+"<li class='list-group-item'><span><mark><strong>Nationality</mark></strong> <br/><span>"+data.nationality+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Airport Code</mark></strong> <br/><span>"+data.airportcode+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Departure Airport Code</mark></strong> <br/><span>"+data.fromairportcode+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Destination Airport Code</mark></strong> <br/><span>"+data.toairportcode+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Malaria Diagnosis %</mark></strong> <br/><span>"+data.malaria+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Hepatitis B Diagnosis %</mark></strong> <br/><span>"+data.hepatitisb+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Whooping Cough Diagnosis %</mark></strong> <br/><span>"+data.whoopingcough+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Tuberculosis Diagnosis %</mark></strong> <br/><span>"+data.tuberculosis+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Plague Diagnosis %</mark></strong> <br/><span>"+data.plague+'</span></li>'+'</ul><br/></div>';
 });
+tableData+="</div>";
+$('#data-table').html(tableData);
         
     });
       

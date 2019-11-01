@@ -50,10 +50,22 @@
                 });
             });
     }
+function sleep(milliseconds) {
+  var start = new Date().getTime();
+  for (var i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > milliseconds){
+      break;
+    }
+  }
+}
      function loadData(url) {
+         $('#data-table').html("<div class='w-100' class='text-center'><img src='https://2019.igem.org/wiki/images/a/ab/T--NYU_Abu_Dhabi--loaderyo.gif' class='img-fluid text-center'/></div>");
 $.getJSON(url, function(jArr) {
+    sleep(2000);
         $(".counter").text(jArr.length);
         runCounter();
+    $("#urlChanger").text(arrayURLs[current_url_number]);
+    $("#urlHolder").text(arrayURLs[current_url_number]);
         tableData="<div class='row' style='padding:2px;'>";
 $.each(jArr, function(index, data) {
  tableData += "<div class='col-xs-6 col-sm-3'><ul class='list-group text-center'><li class='list-group-item'><span><mark><strong>Unique identifier</mark></strong> <br/>"+data.identifier+"</span></li>"+"<li class='list-group-item'><span><mark><strong>Nationality</mark></strong> <br/><span>"+data.nationality+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Airport Code</mark></strong> <br/><span>"+data.airportcode+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Departure Airport Code</mark></strong> <br/><span>"+data.fromairportcode+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Destination Airport Code</mark></strong> <br/><span>"+data.toairportcode+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Malaria Diagnosis %</mark></strong> <br/><span>"+data.malaria+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Hepatitis B Diagnosis %</mark></strong> <br/><span>"+data.hepatitisb+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Whooping Cough Diagnosis %</mark></strong> <br/><span>"+data.whoopingcough+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Tuberculosis Diagnosis %</mark></strong> <br/><span>"+data.tuberculosis+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Plague Diagnosis %</mark></strong> <br/><span>"+data.plague+'</span></li>'+'</ul><br/></div>';
@@ -70,6 +82,7 @@ $('#data-table').html(tableData);
     }
 </style>
 <div class="container text-center" style="padding:15px 0px;">
+    <span class="d-block p-2 bg-primary text-white" id="urlHolder">url</span>
     <button type="button"  id="urlChanger" class="btn btn-primary w-100" style="word-wrap: break-word;">https://igem-nyuad-api.herokuapp.com/request/</button>
    
 </div>
@@ -86,10 +99,10 @@ $('#data-table').html(tableData);
     current_url_number = (current_url_number + 1 )% arrayURLs.length;
    // alert(arrayURLs[current_url_number]);
     loadData(arrayURLs[current_url_number]);
-    $("#urlChanger").text(arrayURLs[current_url_number]);
+    
 });
    </script>
-<div id="data-table"></div></section>
+<div class="w-100 text-center" id="data-table"></div></section>
     </div>
     <section id="contact" class="contact bg-primary">
         <div class="container">

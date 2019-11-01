@@ -70,12 +70,23 @@ $('#data-table').html(tableData);
     }
 </style>
 <div class="container text-center" style="padding:15px 0px;">
-<input style="font-size: 1.35vh;" class="form-control" type="text" placeholder="https://igem-nyuad-api.herokuapp.com/request/" readonly />
+    <button type="button"  id="urlChanger" class="btn btn-primary">https://igem-nyuad-api.herokuapp.com/request/</button>
+   
 </div>
 <h1 style="color:white;" class="text-center"><div class="counter" ></div></h1>
 <script>
     $( document ).ready(function() {
-     loadData('https://igem-nyuad-api.herokuapp.com/request/')
+     loadData('https://igem-nyuad-api.herokuapp.com/request/');
+});
+       var arrayURLs = ['https://igem-nyuad-api.herokuapp.com/request/','https://igem-nyuad-api.herokuapp.com/request/by/disease/malaria','https://igem-nyuad-api.herokuapp.com/request/by/disease/hepatitisB','https://igem-nyuad-api.herokuapp.com/request/by/disease/whoopingCough','https://igem-nyuad-api.herokuapp.com/request/by/disease/tuberculosis','https://igem-nyuad-api.herokuapp.com/request/by/disease/plague','https://igem-nyuad-api.herokuapp.com/request/by/nationality/LK']
+    
+    var current_url_number = 0;
+    $('#urlChanger').click(function(){
+    //alert("clicked");
+    current_url_number = (current_url_number + 1 )% arrayURLs.length;
+   // alert(arrayURLs[current_url_number]);
+    loadData(arrayURLs[current_url_number]);
+    $("#urlChanger").text(arrayURLs[current_url_number]);
 });
    </script>
 <div id="data-table"></div></section>

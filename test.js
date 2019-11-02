@@ -3,12 +3,22 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
 <script src="http://nyuad.me/datamaps.world.min.js"></script>
-<div id="mapID" style="position: relative; width: 500px; height: 300px;"></div>
+<div class="container text-center" style="padding:15px 0px;">
+    
+    <button type="button"  id="urlChanger" class="btn btn-primary w-100" style="word-wrap: break-word;color:black;">Click here to request positive Malaria diagnosis datapoints</button>
+   
+</div>
+<div id="mapID" style="position: relative; width: 100%; height: 10%;"></div>
+
 <script>
     //var map = new Datamap({element: document.getElementById('mapID')});
+    
     var pathways = [];
 function airportCodeToLocation(code) {
     var airportCodes = ["AUH","DXB","BOS","AKB","AKU","AMS","AEX","CCU","ADL","ABV","YLW","MCT","GAN","MLE","BDO","BPT","CPT"];
+    var strokeWidth = 3;
+    var arc = true;
+   // var styling = ;
     var locations =[{"latitude": 24.4393782,"longitude": 54.6539986},
                {"latitude": 25.2514169,"longitude": 55.3685408939522},
                {"latitude": 28.2101136,"longitude": 83.6799872944477},
@@ -32,22 +42,7 @@ function airportCodeToLocation(code) {
         }
     }
 }
-var arcs = new Datamap({
-  element: document.getElementById("mapID"),
-  scope: 'world',
-  fills: {
-    defaultFill: "#ABDDA4",
-    win: '#0fa0fa'
-  },
-  data: {
-    'TX': { fillKey: 'win' },
-    'FL': { fillKey: 'win' },
-    'NC': { fillKey: 'win' },
-    'CA': { fillKey: 'win' },
-    'NY': { fillKey: 'win' },
-    'CO': { fillKey: 'win' }
-  }
-});
+
 
 // Arcs coordinates can be specified explicitly with latitude/longtitude,
 // or just the geographic center of the state/country.
@@ -135,15 +130,51 @@ $.getJSON(url, function(jArr) {
     $(".counter").text(jArr.length);
     runCounter();
 $.each(jArr, function(index, data) {
- tableData += "<div class='col-xs-6 col-sm-3'><ul class='list-group text-center'><li class='list-group-item'><span><mark><strong>Unique identifier</mark></strong> <br/>"+data.identifier+"</span></li>"+"<li class='list-group-item'><span><mark><strong>Nationality</mark></strong> <br/><span>"+data.nationality+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Airport Code</mark></strong> <br/><span>"+data.airportcode+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Departure Airport Code</mark></strong> <br/><span>"+data.fromairportcode+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Destination Airport Code</mark></strong> <br/><span>"+data.toairportcode+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Malaria Diagnosis %</mark></strong> <br/><span>"+data.malaria+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Hepatitis B Diagnosis %</mark></strong> <br/><span>"+data.hepatitisb+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Whooping Cough Diagnosis %</mark></strong> <br/><span>"+data.whoopingcough+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Tuberculosis Diagnosis %</mark></strong> <br/><span>"+data.tuberculosis+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Plague Diagnosis %</mark></strong> <br/><span>"+data.plague+'</span></li>'+'</ul><br/></div>';
-    pathways.push({origin:airportCodeToLocation(data.fromairportcode),destination:airportCodeToLocation(data.toairportcode)});
+ tableData += "<div class='col-xs-6 col-sm-3'><ul class='list-group text-center'><li class='list-group-item'><span><mark><strong>Unique identifier</mark></strong> <br/>"+data.identifier+"</span></li>"+"<li class='list-group-item'><span><mark><strong>Nationality</mark></strong> <br/><span>"+data.nationality+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Airport Code</mark></strong> <br/><span>"+data.airportcode+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Departure Airport Code</mark></strong> <br/><span>"+data.fromairportcode+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Destination Airport Code</mark></strong> <br/><span>"+data.toairportcode+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Malaria Diagnosis (0 or 1)</mark></strong> <br/><span>"+data.malaria+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Hepatitis B Diagnosis (0 or 1)</mark></strong> <br/><span>"+data.hepatitisb+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Whooping Cough Diagnosis (0 or 1)</mark></strong> <br/><span>"+data.whoopingcough+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Tuberculosis Diagnosis (0 or 1)</mark></strong> <br/><span>"+data.tuberculosis+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Plague Diagnosis (0 or 1)</mark></strong> <br/><span>"+data.plague+'</span></li>'+'</ul><br/></div>';
+    var color = "green";
+    if((data.malaria>0)||(data.hepatitisb>0)||(data.whoopingcough>0)||(data.tuberculosis>0)||(data.plague>0)) {
+        color ="red";
+    }
+    pathways.push({origin:airportCodeToLocation(data.fromairportcode,"none"),destination:airportCodeToLocation(data.toairportcode,"red"), options: {
+        strokeWidth: 1.2,
+        strokeColor: color,
+        greatArc: true
+      }});
     
 });
 tableData+="</div>";
+
 $('#data-table').html(tableData);
-    alert(JSON.stringify(pathways));
+   // alert(JSON.stringify(pathways));
+    //start map
+    $('#mapID').html("");
+     $("#mapID").slideDown( "slow", function() {{
+    // Animation complete.
+  }});
+    var arcs = new Datamap({
+  element: document.getElementById("mapID"),
+  scope: 'world',
+ responsive: true,
+  fills: {
+    defaultFill: "#fdcc52",
+    win: '#0fa0fa'
+  },
+  data: {
+    'TX': { fillKey: 'win' },
+    'FL': { fillKey: 'win' },
+    'NC': { fillKey: 'win' },
+    'CA': { fillKey: 'win' },
+    'NY': { fillKey: 'win' },
+    'CO': { fillKey: 'win' }
+  }
+});
+   
     arcs.arc(pathways);
-alert(JSON.stringify(pathways))
+    
+    pathways =[];
+    
+    //end map
+//alert(JSON.stringify(pathways))
     });
     }
 </script>
@@ -152,30 +183,34 @@ alert(JSON.stringify(pathways))
         word-wrap: break-word;
     }
 </style>
-<div class="container text-center" style="padding:15px 0px;">
-    
-    <button type="button"  id="urlChanger" class="btn btn-primary w-100" style="word-wrap: break-word;color:black;">Click here to request positive Malaria diagnosis datapoints</button>
-   
-</div>
+
 <h1 style="color:white;" class="text-center"><div class="counter" ></div></h1>
 <script>
     $( document ).ready(function() {
      loadData('https://igem-nyuad-api.herokuapp.com/request/');
 });
-       var arrayURLs = ['https://igem-nyuad-api.herokuapp.com/request/','https://igem-nyuad-api.herokuapp.com/request/by/disease/malaria','https://igem-nyuad-api.herokuapp.com/request/by/disease/hepatitisB','https://igem-nyuad-api.herokuapp.com/request/by/disease/whoopingCough','https://igem-nyuad-api.herokuapp.com/request/by/disease/tuberculosis','https://igem-nyuad-api.herokuapp.com/request/by/disease/plague','https://igem-nyuad-api.herokuapp.com/request/by/nationality/LK'];
-    var buttonInfo =["positive Malaria diagnosis datapoints","positive Hepatitis B diagnosis datapoints","positive Whooping Cough diagnosis datapoints","positive Tuberculosis diagnosis datapoints","positive Plague diagnosis datapoints","nationality"];
+       var arrayURLs = ['https://igem-nyuad-api.herokuapp.com/request/','https://igem-nyuad-api.herokuapp.com/request/by/disease/malaria','https://igem-nyuad-api.herokuapp.com/request/by/disease/hepatitisB','https://igem-nyuad-api.herokuapp.com/request/by/disease/whoopingCough','https://igem-nyuad-api.herokuapp.com/request/by/disease/tuberculosis','https://igem-nyuad-api.herokuapp.com/request/by/disease/plague','https://igem-nyuad-api.herokuapp.com/request/by/nationality/NZ'];
+    var buttonInfo =["positive Malaria diagnosis datapoints","positive Hepatitis B diagnosis datapoints","positive Whooping Cough diagnosis datapoints","positive Tuberculosis diagnosis datapoints","positive Plague diagnosis datapoints","by nationality country being New Zealand","all datapoints"];
+    var currentInfo =["Currently requesting all the data from the Volatect API.","Currently requesting all the data where malaria has been tested positive","Currently requesting all the data where Hepatitis B has been tested positive","Currently requesting all the data where Whooping Cough has been tested positive","Currently requesting all the data where Tuberculosis has been tested positive","Currently requesting all the data where Plague has been tested positive","Currently requesting all the data where nationality country is New Zealand"]
     
     var current_url_number = 0;
     $('#urlChanger').click(function(){
+        $( "#mapID" ).slideUp( "slow", function() {
+    // Animation complete.
+  });
+        $(".counter").text("");
     //alert("clicked");
         $('#data-table').html("<div class='w-100' class='text-center'><img src='https://2019.igem.org/wiki/images/a/ab/T--NYU_Abu_Dhabi--loaderyo.gif' class='img-fluid text-center'/></div>");
     current_url_number = (current_url_number + 1) % arrayURLs.length;
    // alert(arrayURLs[current_url_number]);
         $("#urlChanger").text("Click here to request " + buttonInfo[current_url_number]);
-    $("#urlHolder").html("<u>Request URL:</u> "+arrayURLs[current_url_number]);
+        $("#easyInfo").html();
+    $("#urlHolder").html("<u>Request URL:</u> <a target='_blank' href='" + arrayURLs[current_url_number] + "'>" + arrayURLs[current_url_number] + "</a><br/>" + "<u>Info: </u>" + currentInfo[current_url_number]);
+        
         setTimeout(function(){
             loadData(arrayURLs[current_url_number]);
         }, 2000);
+         
     
     
 });

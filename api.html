@@ -174,8 +174,8 @@ tableData+="</div>";
 $('#data-table').html(tableData);
    // alert(JSON.stringify(pathways));
     //start map
-    
     $('#mapID').html("");
+    
     var arcs = new Datamap({
   element: document.getElementById("mapID"),
   scope: 'world',
@@ -220,6 +220,9 @@ $('#data-table').html(tableData);
     
     var current_url_number = 0;
     $('#urlChanger').click(function(){
+        $( "#mapID" ).slideUp( "slow", function() {
+    // Animation complete.
+  });
     //alert("clicked");
         $('#data-table').html("<div class='w-100' class='text-center'><img src='https://2019.igem.org/wiki/images/a/ab/T--NYU_Abu_Dhabi--loaderyo.gif' class='img-fluid text-center'/></div>");
     current_url_number = (current_url_number + 1) % arrayURLs.length;
@@ -229,6 +232,9 @@ $('#data-table').html(tableData);
         setTimeout(function(){
             loadData(arrayURLs[current_url_number]);
         }, 2000);
+         $( "#mapID" ).slideDown( "slow", function() {
+    // Animation complete.
+  });
     
     
 });

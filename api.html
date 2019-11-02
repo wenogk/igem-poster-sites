@@ -175,7 +175,9 @@ $('#data-table').html(tableData);
    // alert(JSON.stringify(pathways));
     //start map
     $('#mapID').html("");
-    
+     $("#mapID").slideDown( "slow", function() {{
+    // Animation complete.
+  }});
     var arcs = new Datamap({
   element: document.getElementById("mapID"),
   scope: 'world',
@@ -193,8 +195,11 @@ $('#data-table').html(tableData);
     'CO': { fillKey: 'win' }
   }
 });
+   
     arcs.arc(pathways);
+    
     pathways =[];
+    
     //end map
 //alert(JSON.stringify(pathways))
     });
@@ -229,12 +234,11 @@ $('#data-table').html(tableData);
    // alert(arrayURLs[current_url_number]);
         $("#urlChanger").text("Click here to request " + buttonInfo[current_url_number]);
     $("#urlHolder").html("<u>Request URL:</u> "+arrayURLs[current_url_number]);
+        
         setTimeout(function(){
             loadData(arrayURLs[current_url_number]);
         }, 2000);
-         $( "#mapID" ).slideDown( "slow", function() {
-    // Animation complete.
-  });
+         
     
     
 });

@@ -1,51 +1,14 @@
-<!DOCTYPE html>
-<html>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Home - Volatect</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dynatable/0.3.1/jquery.dynatable.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/4.4.3/css/tabulator.min.css">
-    <link rel="stylesheet" href="assets/css/styles.min.css">
-</head>
-
-<body id="page-top">
-    <nav class="navbar navbar-light navbar-expand-lg fixed-top" id="mainNav">
-        <div class="container"><a class="navbar-brand js-scroll-trigger" href="#page-top"><img id="logo-src" src="assets/img/T--NYU_Abu_Dhabi--logoBlack.png" style="width: 30px;padding: 0px 5px;">Volatect</a><button data-toggle="collapse" data-target="#navbarResponsive" class="navbar-toggler float-right"
-                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars"></i></button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="nav navbar-nav ml-auto">
-                    <li class="nav-item" role="presentation"><a class="nav-link js-scroll-trigger" href="#download">API<br></a></li>
-                    <li class="nav-item" role="presentation"></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <div style="background-color: #000000;background-image: url(&quot;assets/img/bg-pattern.png&quot;);padding: 56px 0px;">
-        <h1 class="text-center" style="color: rgb(255,255,255);padding: 20px 0px 0px 0px;">API DEMO</h1>
-        <section style="padding-top: 0;padding-right: 5px;padding-bottom: 5px;padding-left: 5px;">
-            <div class="alert alert-success" role="alert" id="urlHolder" style="background-color: rgb(0,0,0);color: rgb(255,255,255);word-wrap: break-word;"><span style="color: rgb(255,255,255);word-wrap: break-word;"><strong>Request URL:</strong> https://igem-nyuad-api.herokuapp.com/request/</span></div>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" type="text/javascript"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
 <script src="http://nyuad.me/datamaps.world.min.js"></script>
-<div id="mapID" style="position: relative; width: 100%; height: 10%;"></div>
+<div id="mapID" style="position: relative; width: 500px; height: 300px;"></div>
 <script>
     //var map = new Datamap({element: document.getElementById('mapID')});
-    
     var pathways = [];
 function airportCodeToLocation(code) {
     var airportCodes = ["AUH","DXB","BOS","AKB","AKU","AMS","AEX","CCU","ADL","ABV","YLW","MCT","GAN","MLE","BDO","BPT","CPT"];
-    var strokeWidth = 3;
-    var arc = true;
-   // var styling = ;
     var locations =[{"latitude": 24.4393782,"longitude": 54.6539986},
                {"latitude": 25.2514169,"longitude": 55.3685408939522},
                {"latitude": 28.2101136,"longitude": 83.6799872944477},
@@ -69,7 +32,22 @@ function airportCodeToLocation(code) {
         }
     }
 }
-
+var arcs = new Datamap({
+  element: document.getElementById("mapID"),
+  scope: 'world',
+  fills: {
+    defaultFill: "#ABDDA4",
+    win: '#0fa0fa'
+  },
+  data: {
+    'TX': { fillKey: 'win' },
+    'FL': { fillKey: 'win' },
+    'NC': { fillKey: 'win' },
+    'CA': { fillKey: 'win' },
+    'NY': { fillKey: 'win' },
+    'CO': { fillKey: 'win' }
+  }
+});
 
 // Arcs coordinates can be specified explicitly with latitude/longtitude,
 // or just the geographic center of the state/country.
@@ -158,45 +136,14 @@ $.getJSON(url, function(jArr) {
     runCounter();
 $.each(jArr, function(index, data) {
  tableData += "<div class='col-xs-6 col-sm-3'><ul class='list-group text-center'><li class='list-group-item'><span><mark><strong>Unique identifier</mark></strong> <br/>"+data.identifier+"</span></li>"+"<li class='list-group-item'><span><mark><strong>Nationality</mark></strong> <br/><span>"+data.nationality+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Airport Code</mark></strong> <br/><span>"+data.airportcode+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Departure Airport Code</mark></strong> <br/><span>"+data.fromairportcode+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Destination Airport Code</mark></strong> <br/><span>"+data.toairportcode+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Malaria Diagnosis %</mark></strong> <br/><span>"+data.malaria+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Hepatitis B Diagnosis %</mark></strong> <br/><span>"+data.hepatitisb+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Whooping Cough Diagnosis %</mark></strong> <br/><span>"+data.whoopingcough+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Tuberculosis Diagnosis %</mark></strong> <br/><span>"+data.tuberculosis+'</span></li>'+"<li class='list-group-item'><span><mark><strong>Plague Diagnosis %</mark></strong> <br/><span>"+data.plague+'</span></li>'+'</ul><br/></div>';
-    var color = "green";
-    if((data.malaria>0)||(data.hepatitisb>0)||(data.whoopingcough>0)||(data.tuberculosis>0)||(data.plague>0)) {
-        color ="red";
-    }
-    pathways.push({origin:airportCodeToLocation(data.fromairportcode,"none"),destination:airportCodeToLocation(data.toairportcode,"red"), options: {
-        strokeWidth: 1.2,
-        strokeColor: color,
-        greatArc: true
-      }});
+    pathways.push({origin:airportCodeToLocation(data.fromairportcode),destination:airportCodeToLocation(data.toairportcode)});
     
 });
 tableData+="</div>";
-
 $('#data-table').html(tableData);
-   // alert(JSON.stringify(pathways));
-    //start map
-    
-    $('#mapID').html("");
-    var arcs = new Datamap({
-  element: document.getElementById("mapID"),
-  scope: 'world',
- responsive: true,
-  fills: {
-    defaultFill: "#fdcc52",
-    win: '#0fa0fa'
-  },
-  data: {
-    'TX': { fillKey: 'win' },
-    'FL': { fillKey: 'win' },
-    'NC': { fillKey: 'win' },
-    'CA': { fillKey: 'win' },
-    'NY': { fillKey: 'win' },
-    'CO': { fillKey: 'win' }
-  }
-});
+    alert(JSON.stringify(pathways));
     arcs.arc(pathways);
-    pathways =[];
-    //end map
-//alert(JSON.stringify(pathways))
+alert(JSON.stringify(pathways))
     });
     }
 </script>
@@ -216,7 +163,7 @@ $('#data-table').html(tableData);
      loadData('https://igem-nyuad-api.herokuapp.com/request/');
 });
        var arrayURLs = ['https://igem-nyuad-api.herokuapp.com/request/','https://igem-nyuad-api.herokuapp.com/request/by/disease/malaria','https://igem-nyuad-api.herokuapp.com/request/by/disease/hepatitisB','https://igem-nyuad-api.herokuapp.com/request/by/disease/whoopingCough','https://igem-nyuad-api.herokuapp.com/request/by/disease/tuberculosis','https://igem-nyuad-api.herokuapp.com/request/by/disease/plague','https://igem-nyuad-api.herokuapp.com/request/by/nationality/LK'];
-    var buttonInfo =["positive Malaria diagnosis datapoints","positive Hepatitis B diagnosis datapoints","positive Whooping Cough diagnosis datapoints","positive Tuberculosis diagnosis datapoints","positive Plague diagnosis datapoints","nationality","all datapoints"];
+    var buttonInfo =["positive Malaria diagnosis datapoints","positive Hepatitis B diagnosis datapoints","positive Whooping Cough diagnosis datapoints","positive Tuberculosis diagnosis datapoints","positive Plague diagnosis datapoints","nationality"];
     
     var current_url_number = 0;
     $('#urlChanger').click(function(){
@@ -233,32 +180,4 @@ $('#data-table').html(tableData);
     
 });
    </script>
-<div class="w-100 text-center" id="data-table"></div></section>
-    </div>
-    <section id="contact" class="contact bg-primary">
-        <div class="container">
-            <h2><span>We&nbsp;</span><i class="fa fa-heart"></i><span>&nbsp;new friends!</span></h2>
-            <ul class="list-inline list-social">
-                <li class="list-inline-item social-twitter"><a href="https://www.instagram.com/igem_nyuad/" style="background-image: url(&quot;assets/img/instagram-icon-color-12.jpg&quot;);"><i class="fa fa-instagram"></i></a></li>
-                <li class="list-inline-item social-facebook"><a href="https://www.facebook.com/iGEMNYUAD/"><i class="fa fa-facebook"></i></a></li>
-                <li class="list-inline-item social-google-plus"><a href="https://www.youtube.com/channel/UCQnySAKw67slX8T6r9bAcYw"><i class="fa fa-youtube"></i></a></li>
-            </ul>
-        </div>
-    </section>
-    <footer>
-        <div class="container">
-            <p>©&nbsp;Volatect 2019. All Rights Reserved.</p>
-            <ul class="list-inline">
-                <li class="list-inline-item"><a href="#">Privacy</a></li>
-                <li class="list-inline-item"><a href="#">Terms<i class="fa fa-star"></i></a></li>
-                <li class="list-inline-item"><a href="#">FAQ</a></li>
-            </ul>
-        </div>
-    </footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
-    <script src="assets/js/script.min.js"></script>
-</body>
-
-</html>
+<div class="w-100 text-center" id="data-table"></div>

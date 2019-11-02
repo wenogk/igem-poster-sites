@@ -31,7 +31,7 @@
     <div style="background-color: #000000;background-image: url(&quot;assets/img/bg-pattern.png&quot;);padding: 56px 0px;">
         <h1 class="text-center" style="color: rgb(255,255,255);padding: 20px 0px 0px 0px;">API DEMO</h1>
         <section style="padding-top: 0;padding-right: 5px;padding-bottom: 5px;padding-left: 5px;">
-            <div class="alert alert-success" role="alert" id="urlHolder" style="background-color: rgb(0,0,0);color: rgb(255,255,255);word-wrap: break-word;"><span style="color: rgb(255,255,255);word-wrap: break-word;"><u>Request URL:</u> https://igem-nyuad-api.herokuapp.com/request/<br/>
+            <div class="alert alert-success" role="alert" id="urlHolder" style="background-color: rgb(0,0,0);color: rgb(255,255,255);word-wrap: break-word;"><span style="color: rgb(255,255,255);word-wrap: break-word;"><u>Request URL:</u> <a target="_blank" href="https://igem-nyuad-api.herokuapp.com/request/">https://igem-nyuad-api.herokuapp.com/request/</a><br/>
 <u>Info:</u> Currently requesting all the data from the Volatect API.<br/>
 </span></div>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" type="text/javascript"></script>
@@ -240,7 +240,7 @@ $('#data-table').html(tableData);
    // alert(arrayURLs[current_url_number]);
         $("#urlChanger").text("Click here to request " + buttonInfo[current_url_number]);
         $("#easyInfo").html();
-    $("#urlHolder").html("<u>Request URL:</u> " + arrayURLs[current_url_number] + "<br/>" + "<u>Info: </u>" + currentInfo[current_url_number]);
+    $("#urlHolder").html("<u>Request URL:</u> <a target='_blank' href='" + arrayURLs[current_url_number] + "'>" + arrayURLs[current_url_number] + "</a><br/>" + "<u>Info: </u>" + currentInfo[current_url_number]);
         
         setTimeout(function(){
             loadData(arrayURLs[current_url_number]);

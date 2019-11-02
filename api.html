@@ -220,8 +220,9 @@ $('#data-table').html(tableData);
     $( document ).ready(function() {
      loadData('https://igem-nyuad-api.herokuapp.com/request/');
 });
-       var arrayURLs = ['https://igem-nyuad-api.herokuapp.com/request/','https://igem-nyuad-api.herokuapp.com/request/by/disease/malaria','https://igem-nyuad-api.herokuapp.com/request/by/disease/hepatitisB','https://igem-nyuad-api.herokuapp.com/request/by/disease/whoopingCough','https://igem-nyuad-api.herokuapp.com/request/by/disease/tuberculosis','https://igem-nyuad-api.herokuapp.com/request/by/disease/plague','https://igem-nyuad-api.herokuapp.com/request/by/nationality/LK'];
-    var buttonInfo =["positive Malaria diagnosis datapoints","positive Hepatitis B diagnosis datapoints","positive Whooping Cough diagnosis datapoints","positive Tuberculosis diagnosis datapoints","positive Plague diagnosis datapoints","nationality","all datapoints"];
+       var arrayURLs = ['https://igem-nyuad-api.herokuapp.com/request/','https://igem-nyuad-api.herokuapp.com/request/by/disease/malaria','https://igem-nyuad-api.herokuapp.com/request/by/disease/hepatitisB','https://igem-nyuad-api.herokuapp.com/request/by/disease/whoopingCough','https://igem-nyuad-api.herokuapp.com/request/by/disease/tuberculosis','https://igem-nyuad-api.herokuapp.com/request/by/disease/plague','https://igem-nyuad-api.herokuapp.com/request/by/nationality/NZ'];
+    var buttonInfo =["positive Malaria diagnosis datapoints","positive Hepatitis B diagnosis datapoints","positive Whooping Cough diagnosis datapoints","positive Tuberculosis diagnosis datapoints","positive Plague diagnosis datapoints","by nationality country being New Zealand","all datapoints"];
+    var currentInfo =["Currently requesting all the data from the Volatect API.","Currently requesting all the data where malaria has been tested positive","Currently requesting all the data where Hepatitis B has been tested positive","Currently requesting all the data where Whooping Cough has been tested positive","Currently requesting all the data where Tuberculosis has been tested positive","Currently requesting all the data where Plague has been tested positive","Currently requesting all the data where nationality country is New Zealand"]
     
     var current_url_number = 0;
     $('#urlChanger').click(function(){
@@ -234,7 +235,8 @@ $('#data-table').html(tableData);
     current_url_number = (current_url_number + 1) % arrayURLs.length;
    // alert(arrayURLs[current_url_number]);
         $("#urlChanger").text("Click here to request " + buttonInfo[current_url_number]);
-    $("#urlHolder").html("<u>Request URL:</u> "+arrayURLs[current_url_number]);
+        $("#easyInfo").html();
+    $("#urlHolder").html("<u>Request URL:</u> " + arrayURLs[current_url_number] + "<br/>" + "<u>Info: </u>" + currentInfo[current_url_number]);
         
         setTimeout(function(){
             loadData(arrayURLs[current_url_number]);
